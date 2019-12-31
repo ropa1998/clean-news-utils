@@ -1,5 +1,11 @@
 package flusher;
 
+import flusher.base.FullFlusher;
+import flusher.base.ResultFlusher;
+import flusher.implementations.flushers.full.ConsoleFullFlusher;
+import flusher.implementations.flushers.full.JsonFullFlusher;
+import flusher.implementations.flushers.result.ConsoleResultFlusher;
+import flusher.implementations.flushers.result.FileResultFlusher;
 import implementations.core.article.Article;
 import implementations.core.article.IArticle;
 import implementations.core.medium.IMedium;
@@ -29,15 +35,43 @@ class IFlusherTest {
         String scrappingUrl = "scrappingString";
         ITrend trend = new Trend(trendString, region, scrappingUrl);
 
-        IFlusher flusher = new SoutFlusher();
+        ResultFlusher flusher = new ConsoleResultFlusher();
         flusher.flush(trend);
 
-        flusher = new FileFlusher(testPath + "trendFlusherTest.txt");
+        flusher = new FileResultFlusher(testPath + "trendFlusherTest.txt");
         flusher.flush(trend);
     }
 
     @Test
     public void FlusherArticleTest() {
+        IArticle article = getDummyArticle();
+
+        ResultFlusher flusher = new ConsoleResultFlusher();
+        flusher.flush(article);
+
+        flusher = new FileResultFlusher(testPath + "articleFlusherTest.txt");
+        flusher.flush(article);
+    }
+
+
+    @Test
+    public void JsonFlusherWorks() {
+        IArticle article = getDummyArticle();
+
+        FullFlusher flusher = new JsonFullFlusher(testPath + "articleFlusherTest.json");
+        flusher.flush(article);
+    }
+
+    @Test
+    public void ConsoleFullFlusherWorks() {
+        IArticle article = getDummyArticle();
+
+        FullFlusher flusher = new ConsoleFullFlusher();
+        flusher.flush(article);
+    }
+
+
+    private IArticle getDummyArticle() {
         String title = "Lorem Ipsum";
         String body = "Lorem ipsum dolor sit amet consectetur adipiscing elit massa, nisi tincidunt cubilia maecenas condimentum tempus tellus commodo euismod, neque cras sollicitudin mollis blandit egestas cursus. Metus senectus commodo purus placerat natoque aliquam quisque vestibulum, nisl laoreet praesent class integer rhoncus dapibus. Lobortis euismod nibh tempus elementum phasellus augue vel dui netus, nulla tristique pulvinar habitasse fames mauris pretium semper, dapibus a malesuada turpis felis tortor velit arcu.\n" +
                 "\n" +
@@ -45,12 +79,6 @@ class IFlusherTest {
         String url = "www.loremipsum.com";
         IMedium medium = new Medium("Dummy Medium", "dummyString", "DummyKey");
 
-        IArticle article = new Article(title, body, url, medium);
-
-        IFlusher flusher = new SoutFlusher();
-        flusher.flush(article);
-
-        flusher = new FileFlusher(testPath + "articleFlusherTest.txt");
-        flusher.flush(article);
+        return new Article(title, body, url, medium);
     }
 }

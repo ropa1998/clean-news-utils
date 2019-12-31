@@ -1,5 +1,7 @@
-package flusher;
+package flusher.implementations.flushers.result;
 
+import flusher.base.AbstractFlusher;
+import flusher.base.ResultFlusher;
 import implementations.core.article.IArticle;
 import implementations.core.cleanNewsResult.ICleanNewsResult;
 import implementations.core.trend.ITrend;
@@ -7,11 +9,11 @@ import implementations.core.trend.ITrend;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractFlusher implements IFlusher {
+public abstract class AbstractResultFlusher extends AbstractFlusher implements ResultFlusher {
+
 
     /**
-     * @param cleanNewsResult
-     * A template method for flushing cleanNewsResults, where the aspects that vary are the article flush and the trend flush.
+     * @param cleanNewsResult A template method for flushing cleanNewsResults, where the aspects that vary are the article flush and the trend flush.
      */
     @Override
     public void flush(ICleanNewsResult cleanNewsResult) {
@@ -23,4 +25,6 @@ public abstract class AbstractFlusher implements IFlusher {
             }
         }
     }
+
+
 }
