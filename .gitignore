@@ -144,3 +144,5 @@ gradle-app.setting
 **/build/
 
 # End of https://www.gitignore.io/api/java,gradle,intellij+all
+/src/test/resources/results/mock/articleFlusherTest.json
+/yourfile.csv
